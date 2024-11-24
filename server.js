@@ -1,12 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { RetellWebClient } = require("./controller"); // Adjust SDK path if needed
+const { RetellWebClient } = require("./dist/index.js"); // Adjust path to SDK if needed
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+// Start Call Endpoint
 app.post("/start-call", async (req, res) => {
     const { accessToken, sampleRate, captureDeviceId, playbackDeviceId } = req.body;
 
@@ -30,6 +31,7 @@ app.post("/start-call", async (req, res) => {
     }
 });
 
+// Stop Call Endpoint
 app.post("/stop-call", (req, res) => {
     try {
         const sdkClient = new RetellWebClient();
@@ -41,5 +43,6 @@ app.post("/stop-call", (req, res) => {
     }
 });
 
+// Server Listener
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
